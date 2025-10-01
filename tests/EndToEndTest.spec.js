@@ -24,10 +24,12 @@ test('endToend Playwright test', async ({ browser }) => {
             break;
         }
     }
+
     await page.locator("button[routerlink*='cart']").click();
     await page.locator("div.cart ul").first().waitFor();
     const bool = await page.locator("h3:has-text('iphone 13 pro')").isVisible();
     expect(bool).toBeTruthy();
+
     await page.locator("text=Checkout").click();
     await expect(page.locator(".user__name label")).toHaveText(loginId);
     await page.locator("[placeholder='Select Country']").pressSequentially("Ind");
@@ -40,10 +42,12 @@ test('endToend Playwright test', async ({ browser }) => {
             break;
         }
     }
+
     await page.locator("div:has-text('CVV Code')+.input").fill("431");
     await page.locator("div:has-text('Name on Card')+.input").fill(loginId.split("@")[0]);
     await page.locator("div:has-text('Apply Coupon')+.input").fill("rahulshettyacademy");
     await page.locator("button[type='submit']").click();
+
     await page.locator("input[name='coupon']+p").waitFor();
     await expect(page.locator("input[name='coupon']+p")).toHaveText("* Coupon Applied");
     await page.locator(".action__submit").click();
@@ -51,6 +55,7 @@ test('endToend Playwright test', async ({ browser }) => {
     await expect(page.locator("h1:has-text(' Thankyou for the order. ')")).toHaveText(" Thankyou for the order. ");
     const orderId = await page.locator("label.ng-star-inserted").textContent();
     console.log(orderId);
+
     await page.locator("button[routerlink='/dashboard/myorders']").click();
     await page.locator("h1:has-text('Your Orders')").waitFor();
     const tableRow = page.locator(".table tr");
@@ -64,5 +69,5 @@ test('endToend Playwright test', async ({ browser }) => {
     }
     const orderIdInfo = await page.locator("div.col-text").textContent();
     expect(orderId.includes(orderIdInfo)).toBeTruthy();
-    await page.pause();
+
 })

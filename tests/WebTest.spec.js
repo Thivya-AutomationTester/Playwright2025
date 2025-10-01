@@ -36,6 +36,7 @@ test('UI Controls', async ({ page }) => {
     const dropDown = page.locator("select[class='form-control']");
     const radioButton = page.locator("span.checkmark");
     const checkBox = page.locator("#terms");
+
     await userName.fill("rahul");
     await dropDown.selectOption("teach");
     await radioButton.nth(1).click();
@@ -50,8 +51,22 @@ test('UI Controls', async ({ page }) => {
     await page.pause();
 
 });
+test('childWindow', async ({ browser }) => {
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto("https://demoqa.com/browser-windows");
+    const linkThatOpensNewTab = page.locator('#windowButton');
+    const [newPage] = await Promise.all([
+        context.waitForEvent('page'),  // Wait for new window
+        linkThatOpensNewTab.click()    // Click opens new window
+    ]);
+    await newPage.waitForLoadState();
+    console.log(await newPage.locator('#sampleHeading').textContent());
 
-test.only('childWindow', async ({ browser }) => {
+
+});
+
+test('childWindow1', async ({ browser }) => {
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
