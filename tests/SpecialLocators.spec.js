@@ -92,7 +92,7 @@ test('Calendar Playwright test', async ({ page }) => {
 
 });
 
-test.only('Alerts Frames browserFunctions', async ({ page }) => {
+test('Alerts Frames browserFunctions', async ({ page }) => {
 
     await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
     await page.goto("https://www.google.com/maps");

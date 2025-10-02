@@ -47,7 +47,7 @@ test('UI Controls', async ({ page }) => {
     console.log(await checkBox.isChecked());
     await checkBox.uncheck();
     expect(await checkBox.isChecked()).toBeFalsy();
-    await expect(page.locator("a[href*='documents']")).toHaveAttribute("class", ".blinkingText");
+    await expect(page.locator("a[href*='documents']")).toHaveAttribute("class", "blinkingText");
     await page.pause();
 
 });
