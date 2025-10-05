@@ -2,6 +2,7 @@ const { test, expect, request } = require('@playwright/test');
 const { APIUtils } = require('./Utils/APIUtils');
 const loginPayLoad = { userEmail: "thivyanagammaip@gmail.com", userPassword: "Thivya@24!" };
 const orderPayLoad = { orders: [{ country: "Austria", productOrderedId: "68a961719320a140fe1ca57c" }] };
+const fakePayLoad = { data: [], message: "No Orders" };
 let response;
 
 test.beforeAll(async () => {
@@ -11,25 +12,25 @@ test.beforeAll(async () => {
 
 });
 
-test('endToend Playwright test', async ({ page }) => {
+test('Mocking the response Playwright test', async ({ page }) => {
 
     await page.addInitScript(value => {
         window.localStorage.setItem('token', value);
     }, response.token);
     await page.goto("https://rahulshettyacademy.com/client/");
 
-    await page.locator("button[routerlink='/dashboard/myorders']").click();
-    await page.locator("h1:has-text('Your Orders')").waitFor();
-    const tableRow = page.locator(".table tr");
-    const tablerowCount = await tableRow.count();
-    for (let i = 1; i < tablerowCount; i++) {
-        const idInOrdersPage = await tableRow.nth(i).locator("th").textContent();
-        if (response.orderId.includes(idInOrdersPage)) {
-            await tableRow.nth(i).locator("text=View").click();
-            break;
+    let body = JSON.stringify(fakePayLoad);
+    await page.route("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*",
+        async route => {
+            const response = await page.request.fetch(route.request());
+            route.fulfill({
+                response, body,
+            })
         }
-    }
-    const orderIdInfo = await page.locator("div.col-text").textContent();
-    expect(response.orderId.includes(orderIdInfo)).toBeTruthy();
+    )
+    await page.pause();
+    await page.locator("button[routerlink='/dashboard/myorders']").click();
+    await page.waitForResponse("https://rahulshettyacademy.com/api/ecom/order/get-orders-for-customer/*");
+    console.log(await page.locator(".mt-4").textContent());
 
 })
