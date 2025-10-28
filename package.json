@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:unauth": "powershell -Command \"$env:BROWSER='chromium'; npx playwright test --project=unauthenticated-chromium\"",
+    "test:auth": "powershell -Command \"$env:BROWSER='chromium'; npx playwright test --project=authenticated-chromium\""
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

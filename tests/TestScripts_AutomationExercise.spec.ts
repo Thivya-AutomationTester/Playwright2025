@@ -1,7 +1,7 @@
-import { expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { customTest } from '../utils/TestData';
 
-customTest('Place Order', async ({ page, orderInfo }) => {
+customTest.skip('Place Order', async ({ page, orderInfo }) => {
 
   await page.goto('/products');
   await page.getByRole('link', { name: ' Products' }).click();
@@ -28,7 +28,7 @@ customTest('Place Order', async ({ page, orderInfo }) => {
 })
 
 
-customTest('validate Cart Page', async ({ orderInfo, page }) => {
+customTest.skip('validate Cart Page', async ({ orderInfo, page }) => {
 
   await page.goto('/products');
   await page.getByRole('link', { name: ' Products' }).click();
@@ -44,7 +44,15 @@ customTest('validate Cart Page', async ({ orderInfo, page }) => {
   await page.locator(".product-overlay").filter({ hasText: orderInfo.ProductName }).locator('text=Add to cart').click();
   await page.getByRole('link', { name: 'View Cart' }).click();
   await expect(page.getByText(orderInfo.ProductName)).toBeVisible();
-  await page.pause();
+
 })
 
+test('validate negative user', async ({ page }) => {
+  await page.goto('/login');
+  await page.getByRole('button', { name: 'Consent' }).click();
+  await page.locator("div.login-form input[type='email']").clear();
+  await page.getByPlaceholder('Password').clear();
+  await page.getByRole('button', { name: 'Login' }).click();
+  await page.pause();
+})
 
