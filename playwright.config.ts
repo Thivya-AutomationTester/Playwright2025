@@ -3,8 +3,11 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   reporter: 'html',
+  retries: 1,
+  globalSetup: './utils/globalSetup.ts',
+  globalTeardown: './utils/globalTeardown.ts',
   use: {
-   baseURL: 'https://www.automationexercise.com/',
+    baseURL: 'https://www.automationexercise.com/',
 
     trace: 'on-first-retry',
   },
@@ -13,9 +16,17 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
+
       use: {
-        ...devices['Desktop Chrome'],
-        headless:false
+        browserName: 'chromium',
+        storageState: './auth/storageState.json',
+        headless: false,
+        viewport: null,
+        launchOptions: {
+          args: ['--start-maximized']
+        }
+
+
       },
     },
 
