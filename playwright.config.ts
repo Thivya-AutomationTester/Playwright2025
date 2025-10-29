@@ -6,6 +6,7 @@ export default defineConfig({
   retries: 1,
   globalSetup: './utils/globalSetup.ts',
   globalTeardown: './utils/globalTeardown.ts',
+
   use: {
     baseURL: 'https://www.automationexercise.com/',
     headless: false,
@@ -13,6 +14,7 @@ export default defineConfig({
     launchOptions: {
       args: ['--start-maximized']
     },
+
     trace: 'on-first-retry',
   },
 

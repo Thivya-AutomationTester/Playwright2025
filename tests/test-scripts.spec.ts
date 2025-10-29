@@ -1,7 +1,7 @@
-import { expect, test } from '@playwright/test';
-import { customTest } from '../utils/TestData';
+import { test, expect, loginInfo } from '../utils/TestData';
+import { LoginPage } from '../PageObjects/login-page';
 
-customTest.skip('Place Order', async ({ page, orderInfo }) => {
+test.skip('Place Order', async ({ page, orderInfo }) => {
 
   await page.goto('/products');
   await page.getByRole('link', { name: ' Products' }).click();
@@ -28,7 +28,7 @@ customTest.skip('Place Order', async ({ page, orderInfo }) => {
 })
 
 
-customTest.skip('validate Cart Page', async ({ orderInfo, page }) => {
+test.skip('validate Cart Page', async ({ orderInfo, page }) => {
 
   await page.goto('/products');
   await page.getByRole('link', { name: ' Products' }).click();
@@ -47,12 +47,36 @@ customTest.skip('validate Cart Page', async ({ orderInfo, page }) => {
 
 })
 
-test('validate negative user', async ({ page }) => {
-  await page.goto('/login');
-  await page.getByRole('button', { name: 'Consent' }).click();
-  await page.locator("div.login-form input[type='email']").clear();
-  await page.getByPlaceholder('Password').clear();
-  await page.getByRole('button', { name: 'Login' }).click();
-  await page.pause();
+test.describe('validate negative login', async () => {
+
+  test('validate with blank email and password', async ({ loginPage, validateError }) => {
+    await loginPage.loginUser('', '');
+    await validateError(loginPage.userEmail, 'Please fill in this field.')
+  })
+  test('validate with blank email', async ({ loginPage, validateError }) => {
+    await loginPage.loginUser('', loginInfo[0].password);
+    await validateError(loginPage.userEmail, 'Please fill in this field.')
+  })
+  test('validate with blank password', async ({ loginPage, validateError }) => {
+    await loginPage.loginUser(loginInfo[0].email, '');
+    await validateError(loginPage.userPassword, 'Please fill in this field.')
+  })
+  test('validate with incorrect email and  password', async ({ loginPage }) => {
+    await loginPage.loginUser(loginInfo[1].email, loginInfo[1].password);
+    await expect(loginPage.errorMessage).toBeVisible();
+
+  })
+  test('validate with incorrect email', async ({ loginPage }) => {
+    await loginPage.loginUser(loginInfo[1].email, loginInfo[0].password);
+    await expect(loginPage.errorMessage).toBeVisible();
+
+  })
+  test('validate with incorrect password', async ({ loginPage }) => {
+    await loginPage.loginUser(loginInfo[0].email, loginInfo[1].password);
+    await expect(loginPage.errorMessage).toBeVisible();
+
+  })
+
 })
+
 

@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test:unauth": "powershell -Command \"$env:BROWSER='chromium'; npx playwright test --project=unauthenticated-chromium\"",
-    "test:auth": "powershell -Command \"$env:BROWSER='chromium'; npx playwright test --project=authenticated-chromium\""
+    "test:unauth": "powershell -Command \"$env:BROWSER='chromium';$env:PW_PROJECT='unauthenticated-chromium'; npx playwright test --project=unauthenticated-chromium\"",
+    "test:auth": "powershell -Command \"$env:BROWSER='chromium'; $env:PW_PROJECT='authenticated-chromium'; npx playwright test --project=authenticated-chromium\""
   },
   "keywords": [],
   "author": "",

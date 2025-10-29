@@ -1,4 +1,4 @@
-import { test as base } from '@playwright/test'
+import { test as base } from '../PageObjects/po-manager'
 
 
 interface TestDataForOrder {
@@ -11,7 +11,8 @@ interface TestDataForOrder {
         ExpiryYear: string;
     };
 }
-export const customTest = base.extend<{ orderInfo: TestDataForOrder }>({
+
+export const test = base.extend<{ orderInfo: TestDataForOrder }>({
     orderInfo: {
         ProductName: 'Pure Cotton V-Neck T-Shirt',
         cardInfo: {
@@ -29,8 +30,13 @@ export const customTest = base.extend<{ orderInfo: TestDataForOrder }>({
 
 })
 
-export const loginInfo = {
+export const loginInfo = [{
     email: 'thivyanagammaip@gmail.com',
     password: 'Victory',
     user: 'Thivyanagammai'
-}
+}, {
+    email: 'thivya@gmail.com',
+    password: '121345',
+}]
+
+export { expect } from '@playwright/test'
