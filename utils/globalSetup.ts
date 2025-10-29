@@ -36,8 +36,8 @@ export default async function setUp(config: FullConfig) {
         const loginUrl = new URL('/login', baseURL).toString();
         const loginPage = new LoginPage(page);
         await loginPage.navigateToApp(loginUrl);
-        await loginPage.loginUser(loginInfo.email, loginInfo.password)
-        await expect(page.getByText(loginInfo.user)).toBeVisible();
+        await loginPage.loginUser(loginInfo[0].email, loginInfo[0].password)
+        await expect(page.getByText(loginInfo[0].user)).toBeVisible();
         const storagePath = path.join(storageDir, 'storageState.json');
         await context.storageState({ path: storagePath });
 

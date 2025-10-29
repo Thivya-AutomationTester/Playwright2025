@@ -1,8 +1,10 @@
 import { test as base, expect, Locator } from '@playwright/test'
 import { LoginPage } from './login-page'
+import { ProductsPage } from './products-page';
 
 type MyFixtures = {
     loginPage: LoginPage;
+    productsPage: ProductsPage;
     validateError: (inputField: Locator, expectedMessage: string) => Promise<void>;
 
 
@@ -29,6 +31,16 @@ export const test = base.extend<MyFixtures>({
             });
             expect(validationMessage).toBe(expectedMessage);
         });
+    },
+    productsPage: async ({ page }, use) => {
+        const productsPage = new ProductsPage(page);
+        await productsPage.navigateToPage('/products');
+        await page.waitForLoadState('networkidle');
+        /*  await page.evaluate(() => {
+             window.scrollTo(0, 1000);
+         }) */
+        await use(productsPage);
+
     },
 });
 

@@ -3,7 +3,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   reporter: 'html',
-  retries: 1,
+  //retries: 1,
   globalSetup: './utils/globalSetup.ts',
   globalTeardown: './utils/globalTeardown.ts',
 

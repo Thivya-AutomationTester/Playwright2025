@@ -1,54 +1,32 @@
 import { test, expect, loginInfo } from '../utils/TestData';
-import { LoginPage } from '../PageObjects/login-page';
+import { CardInfo } from '../PageObjects/products-page';
 
-test.skip('Place Order', async ({ page, orderInfo }) => {
+const project = process.env.PW_PROJECT;
+test.describe('Authenticated Tests', async () => {
+  test.skip(project !== 'authenticated-chromium', 'Skipping for unauthenticated project');
+  test('Place Order', async ({ orderInfo, productsPage }) => {
 
-  await page.goto('/products');
-  await page.getByRole('link', { name: ' Products' }).click();
-  await page.waitForLoadState('networkidle');
-  await page.evaluate(() => {
-    window.scrollTo(0, 1000);
+    await productsPage.searchProduct(orderInfo.ProductName);
+    await productsPage.addToCart(orderInfo.ProductName);
+    await productsPage.openCart();
+    await expect(productsPage.getProductLocator(orderInfo.ProductName)).toBeVisible();
+
+    const myCard: CardInfo = {
+      name: orderInfo.cardInfo.NameOnCard,
+      cardNum: orderInfo.cardInfo.CardNumber,
+      cvc: orderInfo.cardInfo.CVC,
+      expiryMonth: orderInfo.cardInfo.ExpiryMonth,
+      expiryYear: orderInfo.cardInfo.ExpiryYear
+    };
+
+    await productsPage.placeOrder(myCard);
+    await expect(productsPage.successMessage).toBeVisible();
   })
-  await page.locator('#search_product').fill(orderInfo.ProductName);
-  await page.locator('#submit_search').click();
-  await page.locator(".product-image-wrapper").waitFor();
-  const product = page.locator(".product-image-wrapper").filter({ hasText: orderInfo.ProductName });
-  await product.hover();
-  await page.locator(".product-overlay").filter({ hasText: orderInfo.ProductName }).locator('text=Add to cart').click();
-  await page.getByRole('link', { name: 'View Cart' }).click();
-  await page.getByText('Proceed To Checkout').click();
-  await page.getByRole('link', { name: 'Place Order' }).click();
-  await page.locator("input[data-qa='name-on-card']").fill(orderInfo.cardInfo.NameOnCard);
-  await page.locator("input[data-qa='card-number']").fill(orderInfo.cardInfo.CardNumber);
-  await page.locator("input[data-qa='cvc']").fill(orderInfo.cardInfo.CVC);
-  await page.locator("input[data-qa='expiry-month']").fill(orderInfo.cardInfo.ExpiryMonth);
-  await page.locator("input[data-qa='expiry-year']").fill(orderInfo.cardInfo.ExpiryYear);
-  await page.getByRole('button', { name: 'Pay and Confirm Order' }).click();
-  await expect(page.getByText('Congratulations! Your order has been confirmed!')).toBeVisible();
-})
 
+});
 
-test.skip('validate Cart Page', async ({ orderInfo, page }) => {
-
-  await page.goto('/products');
-  await page.getByRole('link', { name: ' Products' }).click();
-  await page.waitForLoadState('networkidle');
-  await page.locator('#search_product').fill(orderInfo.ProductName);
-  await page.locator('#submit_search').click();
-  await page.locator('.product-image-wrapper').first().waitFor();
-  await page.evaluate(() => {
-    window.scrollTo(0, 1000);
-  })
-  const product = page.locator(".product-image-wrapper").filter({ hasText: orderInfo.ProductName });
-  await product.hover();
-  await page.locator(".product-overlay").filter({ hasText: orderInfo.ProductName }).locator('text=Add to cart').click();
-  await page.getByRole('link', { name: 'View Cart' }).click();
-  await expect(page.getByText(orderInfo.ProductName)).toBeVisible();
-
-})
-
-test.describe('validate negative login', async () => {
-
+test.describe('Unauthenticated Tests', async () => {
+  test.skip(project !== 'unauthenticated-chromium', 'Skipping for authenticated project');
   test('validate with blank email and password', async ({ loginPage, validateError }) => {
     await loginPage.loginUser('', '');
     await validateError(loginPage.userEmail, 'Please fill in this field.')
