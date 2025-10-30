@@ -9,6 +9,7 @@ export default defineConfig({
   globalTeardown: './utils/globalTeardown.ts',
   snapshotPathTemplate: "{testDir}/snapshots/{arg}{ext}",
 
+
   use: {
     baseURL: 'https://www.automationexercise.com/',
     headless: true,
@@ -18,6 +19,7 @@ export default defineConfig({
     },
 
     trace: 'on-first-retry',
+    screenshot: 'only-on-failure'
   },
 
   /* Configure projects for major browsers */
@@ -40,6 +42,7 @@ export default defineConfig({
         browserName: BROWSER,
         storageState: undefined,
       },
+
       metadata: { requiresAuth: false }
     }
 

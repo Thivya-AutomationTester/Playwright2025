@@ -16,12 +16,18 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npm run test:both:chrome
-    - name: Upload Playwright HTML Report
+    - name: Run Authenticated tests
+      run: npm run test:auth:chrome
+    - name: Run Unauthenticated tests
+      run: npm run test:unauth:chrome
+    - name: Upload authenticated report
       uses: actions/upload-artifact@v4
-      if: ${{ !cancelled() }}
       with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+        name: authenticated-report
+        path: playwright-report/auth
+    - name: Upload Unauthenticated report
+      uses: actions/upload-artifact@v4
+      with:
+        name: unauthenticated-report
+        path: playwright-report/unauth
+    
