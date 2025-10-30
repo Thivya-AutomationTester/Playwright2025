@@ -20,7 +20,6 @@ test.beforeEach(async ({ page }) => {
 });
 
 
-
 test.describe('Authenticated Tests', async () => {
   test.skip(project !== 'authenticated', 'Skipping for unauthenticated project');
   test('visual Testing', async ({ orderInfo, productsPage }) => {

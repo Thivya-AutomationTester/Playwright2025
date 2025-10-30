@@ -26,7 +26,7 @@ export default async function setUp(config: FullConfig) {
         throw new Error(`Unsupported browser: ${browserName}`);
     }
 
-    const browser = await browserType.launch({ headless: false });
+    const browser = await browserType.launch();
     if (!currentProject?.metadata?.requiresAuth) {
         console.log('Skipping global setup for project');
     }

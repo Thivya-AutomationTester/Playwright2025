@@ -1,12 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
 const BROWSER = (process.env.BROWSER || 'chromium') as 'chromium' | 'firefox' | 'webkit';
-//const PW_PROJECT = process.env.PW_PROJECT || 'unauthenticated';
+
 export default defineConfig({
   testDir: './tests',
   reporter: 'html',
-
-  workers: 8,
-  //retries: 1,
+  retries: 1,
   globalSetup: './utils/globalSetup.ts',
   globalTeardown: './utils/globalTeardown.ts',
 
@@ -37,7 +35,7 @@ export default defineConfig({
       name: 'unauthenticated',
       use: {
         browserName: BROWSER,
-        storageState: undefined, // no storageState, fresh context
+        storageState: undefined,
       },
       metadata: { requiresAuth: false }
     }
