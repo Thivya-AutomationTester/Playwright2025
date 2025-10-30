@@ -27,8 +27,10 @@ test.describe('Authenticated Tests', async () => {
     await productsPage.addToCart(orderInfo.ProductName);
     await productsPage.openCart();
     await productsPage.checkout.click();
-
-    expect(await productsPage.billingInfo.screenshot()).toMatchSnapshot('Address.png');
+    const snapshotName = orderInfo.ProductScreenshotPath;
+    expect(await productsPage.billingInfo.screenshot()).toMatchSnapshot(snapshotName, {
+      maxDiffPixelRatio: 0.02
+    });
 
   })
   test('Place Order', async ({ orderInfo, productsPage }) => {

@@ -7,6 +7,7 @@ export default defineConfig({
   retries: 1,
   globalSetup: './utils/globalSetup.ts',
   globalTeardown: './utils/globalTeardown.ts',
+  snapshotPathTemplate: "{testDir}/snapshots/{arg}{ext}",
 
   use: {
     baseURL: 'https://www.automationexercise.com/',

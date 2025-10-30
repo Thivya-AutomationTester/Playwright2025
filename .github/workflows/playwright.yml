@@ -16,8 +16,19 @@ jobs:
       run: npm ci
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
-    - name: Run Playwright tests
-      run: npm run test:both:chrome
+    - name: Run Authenticated tests
+      id: auth
+      run: npm run test:auth:chrome
+      continue-on-error: true
+    - name: Run Unauthenticated Tests
+      id: unauth
+      run: npm run test:unauth:chrome
+      continue-on-error: true
+    - name: Fail job if any test failed
+      if: ${{ steps.auth.conclusion == 'failure' || steps.unauth.conclusion == 'failure' }}
+      run: |
+        echo "Some tests failed"
+        exit 1
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

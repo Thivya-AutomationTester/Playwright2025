@@ -3,6 +3,7 @@ import { test as base } from '../PageObjects/po-manager'
 
 interface TestDataForOrder {
     ProductName: string;
+    ProductScreenshotPath: string;
     cardInfo: {
         NameOnCard: string;
         CardNumber: string;
@@ -15,6 +16,7 @@ interface TestDataForOrder {
 export const test = base.extend<{ orderInfo: TestDataForOrder }>({
     orderInfo: {
         ProductName: 'Pure Cotton V-Neck T-Shirt',
+        ProductScreenshotPath: 'Address-authenticated.png',
         cardInfo: {
             NameOnCard: 'Thivya',
             CardNumber: '9876 5429 8765 4242',
