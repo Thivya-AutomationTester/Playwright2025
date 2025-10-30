@@ -3,7 +3,7 @@ const BROWSER = (process.env.BROWSER || 'chromium') as 'chromium' | 'firefox' | 
 
 export default defineConfig({
   testDir: './tests',
-  reporter: 'html',
+  reporter: [['html', { outputFolder: 'playwright-report' }]],
   retries: 1,
   globalSetup: './utils/globalSetup.ts',
   globalTeardown: './utils/globalTeardown.ts',
