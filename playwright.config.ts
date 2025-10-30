@@ -12,7 +12,7 @@ export default defineConfig({
 
   use: {
     baseURL: 'https://www.automationexercise.com/',
-    headless: false,
+    headless: true,
     viewport: null,
     launchOptions: {
       args: ['--start-maximized']
