@@ -4,14 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "clean:allure": "npx rimraf ./allure-results ./allure-report",
-    "test:unauth": "powershell -Command \"$env:BROWSER='chromium';$env:PW_PROJECT='unauthenticated-chromium'; npx playwright test --project=unauthenticated-chromium --reporter=line,allure-playwright\"",
-    "test:auth": "powershell -Command \"$env:BROWSER='chromium'; $env:PW_PROJECT='authenticated-chromium'; npx playwright test --project=authenticated-chromium --reporter=line,allure-playwright\"",
-    "test:auth:allure": "npm run clean:allure && npm run test:auth && npm run allure:generate && npm run allure:open",
-    "test:unauth:allure": "npm run clean:allure && npm run test:unauth && npm run allure:generate && npm run allure:open",
-    "test:both:allure": "npm run clean:allure && npm run test:unauth && npm run test:auth && npm run allure:generate && npm run allure:open",
-    "allure:generate": "allure generate ./allure-results --clean -o ./allure-report",
-    "allure:open": "allure open ./allure-report"
+    "test:unauth:firefox": "powershell -Command \"$env:BROWSER='firefox';$env:PW_PROJECT='unauthenticated'; npx playwright test --project=unauthenticated --reporter=line,allure-playwright\"",
+    "test:unauth:chrome": "powershell -Command \"$env:BROWSER='chromium';$env:PW_PROJECT='unauthenticated'; npx playwright test --project=unauthenticated --reporter=line,allure-playwright\"",
+    "test:auth:chrome": "powershell -Command \"$env:BROWSER='chromium';$env:PW_PROJECT='authenticated'; npx playwright test --project=authenticated --reporter=line,allure-playwright\"",
+    "test:auth:firefox": "powershell -Command \"$env:BROWSER='firefox';$env:PW_PROJECT='authenticated'; npx playwright test --project=authenticated --reporter=line,allure-playwright\"",
+    "test:both:chrome": "npm run test:unauth:chrome && npm run test:auth:chrome --reporter=line,allure-playwright",
+    "test:both:firefox": "npm run test:unauth:firefox && npm run test:auth:firefox --reporter=line,allure-playwright"
   },
   "keywords": [],
   "author": "",

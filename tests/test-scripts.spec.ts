@@ -22,7 +22,16 @@ test.beforeEach(async ({ page }) => {
 
 
 test.describe('Authenticated Tests', async () => {
-  test.skip(project !== 'authenticated-chromium', 'Skipping for unauthenticated project');
+  test.skip(project !== 'authenticated', 'Skipping for unauthenticated project');
+  test('visual Testing', async ({ orderInfo, productsPage }) => {
+    await productsPage.searchProduct(orderInfo.ProductName);
+    await productsPage.addToCart(orderInfo.ProductName);
+    await productsPage.openCart();
+    await productsPage.checkout.click();
+
+    expect(await productsPage.billingInfo.screenshot()).toMatchSnapshot('Address.png');
+
+  })
   test('Place Order', async ({ orderInfo, productsPage }) => {
 
     await productsPage.searchProduct(orderInfo.ProductName);
@@ -41,29 +50,22 @@ test.describe('Authenticated Tests', async () => {
     await productsPage.placeOrder(myCard);
     await expect(productsPage.successMessage).toBeVisible();
   })
-  test('visual Testing', async ({ orderInfo, productsPage }) => {
-    await productsPage.searchProduct(orderInfo.ProductName);
-    await productsPage.addToCart(orderInfo.ProductName);
-    await productsPage.openCart();
-    await productsPage.checkout.click();
-    expect(await productsPage.billingInfo.screenshot()).toMatchSnapshot('Address.png');
 
-  })
 });
 
 test.describe('Unauthenticated Tests', async () => {
-  test.skip(project !== 'unauthenticated-chromium', 'Skipping for authenticated project');
+  test.skip(project !== 'unauthenticated', 'Skipping for authenticated project');
   test('validate with blank email and password', async ({ loginPage, validateError }) => {
     await loginPage.loginUser('', '');
-    await validateError(loginPage.userEmail, 'Please fill in this field.')
+    await validateError(loginPage.userEmail, 'Please fill')
   })
   test('validate with blank email', async ({ loginPage, validateError }) => {
     await loginPage.loginUser('', loginInfo[0].password);
-    await validateError(loginPage.userEmail, 'Please fill in this field.')
+    await validateError(loginPage.userEmail, 'Please fill')
   })
   test('validate with blank password', async ({ loginPage, validateError }) => {
     await loginPage.loginUser(loginInfo[0].email, '');
-    await validateError(loginPage.userPassword, 'Please fill in this field.')
+    await validateError(loginPage.userPassword, 'Please fill')
   })
   test('validate with incorrect email and  password', async ({ loginPage }) => {
     await loginPage.loginUser(loginInfo[1].email, loginInfo[1].password);

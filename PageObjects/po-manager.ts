@@ -29,7 +29,7 @@ export const test = base.extend<MyFixtures>({
                 const el = input as HTMLInputElement;
                 return el.validationMessage;
             });
-            expect(validationMessage).toBe(expectedMessage);
+            expect(validationMessage).toContain(expectedMessage);
         });
     },
     productsPage: async ({ page }, use) => {

@@ -1,8 +1,11 @@
 import { defineConfig, devices } from '@playwright/test';
-
+const BROWSER = (process.env.BROWSER || 'chromium') as 'chromium' | 'firefox' | 'webkit';
+//const PW_PROJECT = process.env.PW_PROJECT || 'unauthenticated';
 export default defineConfig({
   testDir: './tests',
   reporter: 'html',
+
+  workers: 8,
   //retries: 1,
   globalSetup: './utils/globalSetup.ts',
   globalTeardown: './utils/globalTeardown.ts',
@@ -21,23 +24,19 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
     {
-      name: 'authenticated-chromium',
+      name: 'authenticated',
 
       use: {
-        browserName: 'chromium',
+        browserName: BROWSER,
         storageState: './auth/storageState.json',
-
-
-
-
       },
       metadata: { requiresAuth: true }
 
     },
     {
-      name: 'unauthenticated-chromium',
+      name: 'unauthenticated',
       use: {
-        browserName: 'chromium',
+        browserName: BROWSER,
         storageState: undefined, // no storageState, fresh context
       },
       metadata: { requiresAuth: false }
