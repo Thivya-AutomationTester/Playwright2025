@@ -36,9 +36,6 @@ export const test = base.extend<MyFixtures>({
         const productsPage = new ProductsPage(page);
         await productsPage.navigateToPage('/products');
         await page.waitForLoadState('networkidle');
-        /*  await page.evaluate(() => {
-             window.scrollTo(0, 1000);
-         }) */
         await use(productsPage);
 
     },

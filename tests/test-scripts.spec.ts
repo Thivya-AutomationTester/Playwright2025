@@ -2,6 +2,25 @@ import { test, expect, loginInfo } from '../utils/TestData';
 import { CardInfo } from '../PageObjects/products-page';
 
 const project = process.env.PW_PROJECT;
+
+test.beforeEach(async ({ page }) => {
+  await page.route('**/*', (route) => {
+    const url = route.request().url();
+    if (
+      url.includes('googlesyndication') ||
+      url.includes('doubleclick') ||
+      url.includes('ads.') ||
+      url.includes('analytics')
+    ) {
+      route.abort();
+    } else {
+      route.continue();
+    }
+  });
+});
+
+
+
 test.describe('Authenticated Tests', async () => {
   test.skip(project !== 'authenticated-chromium', 'Skipping for unauthenticated project');
   test('Place Order', async ({ orderInfo, productsPage }) => {
@@ -22,7 +41,14 @@ test.describe('Authenticated Tests', async () => {
     await productsPage.placeOrder(myCard);
     await expect(productsPage.successMessage).toBeVisible();
   })
+  test('visual Testing', async ({ orderInfo, productsPage }) => {
+    await productsPage.searchProduct(orderInfo.ProductName);
+    await productsPage.addToCart(orderInfo.ProductName);
+    await productsPage.openCart();
+    await productsPage.checkout.click();
+    expect(await productsPage.billingInfo.screenshot()).toMatchSnapshot('Address.png');
 
+  })
 });
 
 test.describe('Unauthenticated Tests', async () => {

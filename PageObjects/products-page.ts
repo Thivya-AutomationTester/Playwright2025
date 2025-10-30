@@ -24,6 +24,7 @@ export class ProductsPage {
     expiryYear: Locator;
     confirmOrder: Locator;
     successMessage: Locator;
+    billingInfo: Locator;
     page: Page;
 
 
@@ -43,7 +44,7 @@ export class ProductsPage {
         this.expiryYear = page.locator("input[data-qa='expiry-year']");
         this.confirmOrder = page.getByRole('button', { name: 'Pay and Confirm Order' });
         this.successMessage = page.getByText('Congratulations! Your order has been confirmed!');
-
+        this.billingInfo = page.locator('.checkout-information');
     }
 
     async navigateToPage(url: string) {
@@ -78,5 +79,6 @@ export class ProductsPage {
         await this.expiryYear.fill(cardInfo.expiryYear);
         await this.confirmOrder.click();
     }
+
 
 }

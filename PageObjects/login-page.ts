@@ -22,7 +22,10 @@ export class LoginPage {
 
     async navigateToApp(url: string) {
         await this.page.goto(url);
-        await this.consentButton.click();
+
+        if (await this.consentButton.count() > 0) {
+            await this.consentButton.click();
+        }
     }
     async loginUser(email: string, password: string) {
 
