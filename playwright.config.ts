@@ -28,7 +28,9 @@ export default defineConfig({
       use: {
         browserName: BROWSER,
         storageState: './auth/storageState.json',
+
       },
+
       metadata: { requiresAuth: true }
 
     },

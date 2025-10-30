@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test:unauth:firefox": "cross-env BROWSER=firefox PW_PROJECT=unauthenticated npx playwright test --project=unauthenticated --reporter=line,allure-playwright",
-    "test:unauth:chrome": "cross-env BROWSER=chromium PW_PROJECT=unauthenticated npx playwright test --project=unauthenticated --reporter=html=playwright-report/unauthenticated",
-    "test:auth:chrome": "cross-env BROWSER=chromium PW_PROJECT=authenticated npx playwright test --project=authenticated --reporter=html=playwright-report/authenticated",
+    "test:unauth:chrome": "cross-env BROWSER=chromium PW_PROJECT=unauthenticated npx playwright test --project=unauthenticated --reporter=html",
+    "test:auth:chrome": "cross-env BROWSER=chromium PW_PROJECT=authenticated npx playwright test --project=authenticated --reporter=html",
     "test:auth:firefox": "cross-env BROWSER=firefox PW_PROJECT=authenticated npx playwright test --project=authenticated --reporter=line,allure-playwright",
     "test:both:chrome": "npm run test:unauth:chrome && npm run test:auth:chrome",
     "test:both:firefox": "npm run test:unauth:firefox && npm run test:auth:firefox --reporter=html,line,allure-playwright"
