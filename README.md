@@ -44,18 +44,18 @@ npm run test:dynamic --project=authenticated
   -  The test:dynamic script reads the BROWSER variable and the PW_PROJECT (project) variable internally, then executes the tests and generates the Allure report.
 ### CI Execution ###
   -  In CI, tests are executed using HTML reporter and stored separately for authenticated and unauthenticated flows:
-  ### Run authenticated tests: ###
+  -  ### Run authenticated tests: ###
    ```
     npm run test:auth:chrome
- ```
-  ### Run unauthenticated tests: ###
+   ```
+   - ### Run unauthenticated tests: ###
    ```
   npm run test:unauth:chrome
- ```
-  ### output ###
-  HTML reports are generated in the following folders:
-   - playwright-report/auth → Authenticated tests
-   - playwright-report/unauth → Unauthenticated tests 
+   ```
+   - ### output ###
+      -  HTML reports are generated in the following folders:
+         - playwright-report/auth → Authenticated tests
+         - playwright-report/unauth → Unauthenticated tests 
 ### Global Setup / Teardown ### 
 - utils/globalSetup.ts handles login for authenticated projects.
 - Authenticated state is stored in auth/storageState.json.
