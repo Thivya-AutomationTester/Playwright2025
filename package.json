@@ -10,7 +10,7 @@
     "test:auth:chrome": "cross-env PLAYWRIGHT_HTML_REPORT=playwright-report/auth BROWSER=chromium PW_PROJECT=authenticated npx playwright test --project=authenticated --reporter=html ",
     "allure:generate": "allure generate ./allure-results --clean",
     "allure:open": "allure open ./allure-report",
-    "test:dynamic": "cross-env BROWSER=chromium PW_PROJECT=$npm_config_project npx playwright test --project=%npm_config_project% --reporter=line,allure-playwright && npm run allure:generate && npm run allure:open"
+    "test:dynamic": "cross-env PW_PROJECT=$npm_config_project npx playwright test --project=%npm_config_project% --reporter=line,allure-playwright && npm run allure:generate && npm run allure:open"
   },
   "keywords": [],
   "author": "",
