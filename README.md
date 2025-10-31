@@ -71,10 +71,10 @@ npm run allure:open
 ### GitHub CI Integration ### 
 - The project is configured to run automatically on push to main branch.
 - Workflow executes:
-  1.Checkout code
-  2.Install dependencies and browsers
-  3.Run tests for each project
-  4.Upload HTML reports as GitHub artifacts
+     - Checkout code
+     - Install dependencies and browsers
+     - Run tests for each project
+     - Upload HTML reports as GitHub artifacts
 - This allows test automation to run in CI without manual intervention.
 ### Notes ###
 - Node.js version: 18.x–22.x
