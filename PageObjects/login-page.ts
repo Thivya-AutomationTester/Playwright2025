@@ -33,21 +33,7 @@ export class LoginPage {
         await this.userPassword.fill(password);
         await this.loginButton.click();
     }
-    async validateEmptyFieldError(inputField: Locator, expectedMessage: string) {
 
-        const isInvalid = await inputField.evaluate(input => {
-            const el = input as HTMLInputElement;
-            return !el.checkValidity();
-        }); expect(isInvalid).toBe(true);
-
-
-        const validationMessage = await inputField.evaluate(input => {
-            const el = input as HTMLInputElement;
-            return el.validationMessage;
-        });
-
-        expect(validationMessage).toBe(expectedMessage);
-    }
 
 
 }
